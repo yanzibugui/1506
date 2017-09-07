@@ -105,3 +105,4 @@ def execute_sql(sql_list,db='schema1')->list:
             return False
         finally:
             schema.close()
+
