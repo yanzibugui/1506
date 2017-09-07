@@ -7,8 +7,22 @@ import pymysql
 import time
 import re
 
-def get_connect(db):
-    return db
+def get_connect(schema):
+    conn = {
+        'host': 'host',
+        'port': 3306,
+        'user':'user',
+        'password':'password',
+        'charset': 'utf8mb4',
+        'cursorclass': pymysql.cursors.DictCursor,
+    }
+    schemas = ['schema1','schema2']
+    if schema not in schemas:
+        print("Incorrect database of {0}@{1}".format(conn['user'], conn['host']))
+        return None
+    else:
+        return pymysql.connect(db=schema, host=conn['host'], port=conn['port'], user=conn['user'],
+                               password=conn['password'], charset=conn['charset'], cursorclass=conn['cursorclass'])
 
 def ensure_list(obj)->list:
     if isinstance(obj,list):
@@ -41,7 +55,7 @@ def write_log(log_body,log_tail = 'has completed!\n'):
     with open(r'C:\Users\linhao02_sh\PycharmProjects\1506\etl\ccetl_job_log.txt', 'a') as ilog:
         ilog.write(log)
 
-def execute_sql(sql_list,db='invalid_data')->list:
+def execute_sql(sql_list,db='schema1')->list:
     if sql_list is None:
         print('SQL statement is null...')
         return False
